@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.h-80 {
+  height: 21rem;
+}
+
+.w-80 {
+  width: 21rem;
+}
+
+.h-82 {
+  height: 22rem;
+}
+
+.w-82 {
+  width: 22rem;
+}
+
+.-my-70 {
+  margin-top: -22rem;
+  margin-bottom: -22rem;
+}
+
+.bg-blue-right {
+  @apply bg-blue-400 w-7/12 h-screen right-0 absolute z-0 block flex;
+}
+
+.img-container {
+  @apply h-full w-full my-10 grid grid-rows-1 grid-flow-col flex content-center justify-center;
+}
+
+.img-circle {
+  @apply rounded-full shadow-2xl object-fill flex;
+}
+
+.circle-behind {
+  @apply rounded-full h-82 w-82 bg-blue-700 z-0 -my-70 -mx-4;
+}
+
+.rounded-xl {
+  border-radius: 4rem;
+}
+
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
