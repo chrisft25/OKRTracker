@@ -43,6 +43,10 @@
   border-radius: 4rem;
 }
 
-body {
-  overflow: hidden; /* Hide scrollbars */
+.blue-bg {
+  background-color: blue;
+}
+
+.height-50 {
+  min-height: 50vh;
 }
