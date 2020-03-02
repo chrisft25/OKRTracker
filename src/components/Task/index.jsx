@@ -2,7 +2,15 @@ import React, { useState } from "react";
 import TaskCard from "../TaskCard";
 import UserCard from "../UserCard";
 
+const Trello = require("trello");
+
+const trello = new Trello("323ba02d10dd651f558d8d56a48f45ee", "4a7071d829abcc2c31767f9f2b80603d02062f4eb2dfbf70bbfc7673748e75f3");
+
 const Task = () => {
+  const cardsPromise = trello.getBoards();
+  cardsPromise.then((cards) => {
+    console.log(cards);
+  });
   const [tasks, setTasks] = useState([
     {
       name: "Chris",
@@ -44,7 +52,7 @@ const Task = () => {
   return (
     <>
       <div className="container-fluid">
-        {tasks.map(task => (
+        {tasks.map((task) => (
           <div className="row height-50">
             <UserCard user={task} />
             <TaskCard task={task.task} />
