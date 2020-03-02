@@ -7,7 +7,7 @@ const Trello = require("trello");
 const trello = new Trello("323ba02d10dd651f558d8d56a48f45ee", "4a7071d829abcc2c31767f9f2b80603d02062f4eb2dfbf70bbfc7673748e75f3");
 
 const Task = () => {
-  const cardsPromise = trello.getBoards();
+  const cardsPromise = trello.getListsOnBoard("ee8vLN8D");
   cardsPromise.then((cards) => {
     console.log(cards);
   });
