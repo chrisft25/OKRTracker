@@ -13,7 +13,7 @@ const Task = () => {
   const members = [];
   const cards = [];
 
-  const getMembers = async (idBoards = (process.env.REACT_APP_MAIN_BOARD).split(",")) => {
+  const getMembers = async (idBoards = (process.env.REACT_APP_BOARDS).split(",")) => {
     let member = [];
     let preData = [];
     console.log(idBoards);
