@@ -1,21 +1,37 @@
 import React, { useState } from "react";
+import { Trello, BoardRecord } from "trello-for-wolves";
 import TaskCard from "../TaskCard";
 import UserCard from "../UserCard";
 
+const trello = new Trello({
+  key: "323ba02d10dd651f558d8d56a48f45ee",
+  token: "4a7071d829abcc2c31767f9f2b80603d02062f4eb2dfbf70bbfc7673748e75f3",
+});
 
 const Task = () => {
-  const [tasks, setTasks] = useState([
-    {
+  const [tasks, setTasks] = useState([]);
+  let cards = [];
+  let member = [];
+  const test = async () => {
+    cards = await (await trello.lists("5e55bf69d7c0996f4c7a4b6e").cards().getCards()).json();
+    console.log(cards[0].name);
+    member = await (await trello.members(cards[0].idMembers[0]).getMember()).json();
+    console.log(member);
+    console.log(member.fullName);
+    setData();
+  };
+  const setData = () => {
+    setTasks([{
       name: "Chris",
       img:
         "https://scontent-mia3-1.xx.fbcdn.net/v/t1.0-9/72627283_2602891243065079_7855503477965848576_n.jpg?_nc_cat=101&_nc_sid=85a577&_nc_ohc=rscJnI5wKK8AX-r9usB&_nc_ht=scontent-mia3-1.xx&oh=d204a2bbc0af26daa047c446d2f99ec6&oe=5EED2B5D",
       task: "Working on Platform",
     },
     {
-      name: "Monge",
+      name: member.fullName,
       img:
-        "https://pbs.twimg.com/profile_images/1194094013059649536/JnApAONE_400x400.jpg",
-      task: "Testing components",
+        `${member.avatarUrl}/original.png`,
+      task: cards[0].name,
     },
     {
       name: "Elison",
@@ -41,7 +57,11 @@ const Task = () => {
         "https://scontent-mia3-1.xx.fbcdn.net/v/t1.0-9/p960x960/45265716_1992394774172885_1881235769167708160_o.jpg?_nc_cat=108&_nc_sid=7aed08&_nc_ohc=HQFrWHFXmG8AX9_eolA&_nc_ht=scontent-mia3-1.xx&_nc_tp=6&oh=95780898a2b42de5fe336145cc42cab3&oe=5EFDD5E6",
       task: "Repairing Printer",
     },
-  ]);
+    ]);
+  };
+
+  test();
+
   return (
     <>
       <div className="container-fluid">
