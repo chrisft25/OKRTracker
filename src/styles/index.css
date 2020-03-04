@@ -10932,6 +10932,10 @@ video {
   width: 100%;
 }
 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
