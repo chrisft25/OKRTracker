@@ -93,8 +93,9 @@ const Task = () => {
                     }/original.png`
                   : null,
                 name: members.filter(mem => mem.id === card.idMembers[0])[0]
-                  ? members.filter(mem => mem.id === card.idMembers[0])[0]
-                      .fullName
+                  ? members
+                      .filter(mem => mem.id === card.idMembers[0])[0]
+                      .fullName.split(" ")[0]
                   : null,
               })
             );
