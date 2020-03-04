@@ -10932,8 +10932,21 @@ video {
   width: 100%;
 }
 
-body {
-  overflow: hidden; /* Hide scrollbars */
+.blue-bg {
+  background: linear-gradient(to left, #3182ce 60%, white 40%);
+}
+
+@media (min-width: 640px) {
+  body {
+    background-color: white;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    overflow: hidden; /* Hide scrollbars */
+    background: linear-gradient(to left, #3182ce 60%, white 40%);
+  }
 }
 
 @media (min-width: 640px) {
