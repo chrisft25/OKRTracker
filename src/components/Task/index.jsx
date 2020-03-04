@@ -27,8 +27,17 @@ const Task = () => {
       preData.map((val) => { member = [...member, val]; });
     }));
 
-    member = member.filter((mem, key) => key === member.indexOf(mem));
-    console.log(member);
+
+    /**
+ * Find duplicates.
+ *
+ * Create a new array with unique id's
+ * Then, we do a map function to the result and return the original values from that.
+ */
+
+    member = Array.from(new Set(member.map((a) => a.id)))
+      .map((id) => member.find((a) => a.id === id));
+
 
     await getAvatars(member);
   };
@@ -50,6 +59,7 @@ const Task = () => {
 
   const getDoingCards = async (idLists = (process.env.REACT_APP_DOING_LISTS).split(",")) => {
     await Promise.all(idLists.map(async (idList) => {
+      const preData = [];
       await (
         await trello
           .lists(idList)
@@ -58,8 +68,9 @@ const Task = () => {
       )
         .json()
         .then((data) => {
-          data.map((card) => cards.push({
-            id: card.idMembers[0],
+          data.map((card) => preData.push({
+            id: card.id,
+            hide: false,
             task: card.name,
             img: members.filter((mem) => mem.id === card.idMembers[0])[0]
               ? `${
@@ -70,33 +81,48 @@ const Task = () => {
               ? members.filter((mem) => mem.id === card.idMembers[0])[0].fullName
               : null,
           }));
+          preData.map((val) => ((val.name) ? cards.push(val) : null));
         });
     }));
-
-    console.log(cards);
-    setTasks(cards);
   };
 
+
+  const updateTasks = () => {
+
+  };
   useEffect(() => {
     async function initialData() {
       await getMembers();
       await getDoingCards();
+      setTasks(cards);
+      console.log(cards);
     }
 
     initialData();
   }, []);
 
+  const reset = () => {
+    new Promise((resolve, reject) => {
+      window.document.getElementById(tasks[0].id).classList.add("bounceOutRight");
+      setTimeout(() => {
+        window.document.getElementById(tasks[0].id).classList.remove("bounceOutRight");
+        window.document.querySelectorAll(".animated").classList.remove("bounceInUp");
+        setTasks(tasks.filter((item) => item.id !== tasks[0].id));
+        resolve("¡Éxito!"); // ¡Todo salió bien!
+      }, 250);
+    });
+  };
+
   return (
     <>
       <div className="container-fluid">
-        {tasks.map((task) => (task.id ? (
-          <div className="row height-50 bounceInUp animated" key={task.id}>
+        <button onClick={reset}>Hola</button>
+        {tasks.map((task) => (
+          <div className="row height-50 bounceInUp animated" id={task.id}>
             <UserCard user={task} />
             <TaskCard task={task.task} />
           </div>
-        ) : (
-          ""
-        )))}
+        ))}
       </div>
     </>
   );
