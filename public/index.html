@@ -63,8 +63,6 @@
     channel.bind('taskChange', function(data) {
       if(data.action.data.listAfter.name=="Done"){
         console.log(data)
-        
-        alert("Bien hecho! " + data.action.memberCreator.fullName + " Terminaste la tarea:" + data.action.data.card.name)
         let timerInterval
 Swal.fire({
   title: '¡Excelente ' + data.action.memberCreator.fullName +'!',
