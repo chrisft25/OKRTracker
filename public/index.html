@@ -36,6 +36,7 @@
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
   <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 
 <body>
@@ -62,6 +63,29 @@
     channel.bind('taskChange', function(data) {
       if(data.action.data.listAfter.name=="Done"){
         alert("Bien hecho! " + data.action.memberCreator.fullName + " Terminaste la tarea:" + data.action.data.card.name)
+        let timerInterval
+Swal.fire({
+  title: '¡Excelente ' + data.action.memberCreator.fullName +'!',
+  html: 'Terminaste: '+data.action.data.card.name + "<br/><img src='https://unsplash.it/400/200' style='height:100%;width:100%'/>",
+  timer: 10000,
+  timerProgressBar: true,
+  width:800,
+  height:800,
+  backdrop: `
+    rgba(0,0,123,0.4)
+    url("https://sweetalert2.github.io/images/nyan-cat.gif")
+    left top
+    no-repeat
+  `,
+  onClose: () => {
+    clearInterval(timerInterval)
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log('I was closed by the timer')
+  }
+})
       }
     });
     </script>
