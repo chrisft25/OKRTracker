@@ -62,20 +62,22 @@
     var channel = pusher.subscribe('OKRTracker');
     channel.bind('taskChange', function(data) {
       if(data.action.data.listAfter.name=="Done"){
+        console.log(data)
+        
         alert("Bien hecho! " + data.action.memberCreator.fullName + " Terminaste la tarea:" + data.action.data.card.name)
         let timerInterval
 Swal.fire({
   title: '¡Excelente ' + data.action.memberCreator.fullName +'!',
-  html: 'Terminaste: '+data.action.data.card.name + "<br/><img src='https://unsplash.it/400/200' style='height:100%;width:100%'/>",
+  html: 'Terminaste: '+data.action.data.card.name + "<br/><img src='"+ data.img_user + "' style='height:100%;width:100%'/>",
   timer: 10000,
   timerProgressBar: true,
   width:800,
   height:800,
   backdrop: `
-    rgba(0,0,123,0.4)
-    url("https://sweetalert2.github.io/images/nyan-cat.gif")
+    rgba(${data.bg_user.r},${data.bg_user.g},${data.bg_user.b},0.4)
+    url("${data.bg_user.img}")
     left top
-    no-repeat
+    repeat
   `,
   onClose: () => {
     clearInterval(timerInterval)
