@@ -15,23 +15,23 @@ const Task = () => {
   let cards = [];
 
   const getMembers = async (
-    idBoards = process.env.REACT_APP_BOARDS.split(",")
+    idBoards = process.env.REACT_APP_BOARDS.split(","),
   ) => {
     let member = [];
     let preData = [];
     console.log(idBoards);
     await Promise.all(
-      idBoards.map(async idBoard => {
+      idBoards.map(async (idBoard) => {
         preData = await (
           await trello
             .boards(idBoard)
             .members()
             .getMembers()
         ).json();
-        preData.map(val => {
+        preData.map((val) => {
           member = [...member, val];
         });
-      })
+      }),
     );
 
     /**
@@ -41,38 +41,35 @@ const Task = () => {
      * Then, we do a map function to the result and return the original values from that.
      */
 
-    member = Array.from(new Set(member.map(a => a.id))).map(id =>
-      member.find(a => a.id === id)
-    );
+    member = Array.from(new Set(member.map((a) => a.id))).map((id) => member.find((a) => a.id === id));
 
     await getAvatars(member);
   };
 
-  const getAvatars = async member =>
-    Promise.all(
-      member.map(async mem => {
-        const { id, fullName, username } = mem;
-        const { _value } = await (
-          await trello.members(mem.id).getFieldValue("avatarUrl")
-        ).json();
-        members.push({
-          id,
-          fullName,
-          username,
-          avatar: _value,
-        });
-      })
-    );
+  const getAvatars = async (member) => Promise.all(
+    member.map(async (mem) => {
+      const { id, fullName, username } = mem;
+      const { _value } = await (
+        await trello.members(mem.id).getFieldValue("avatarUrl")
+      ).json();
+      members.push({
+        id,
+        fullName,
+        username,
+        avatar: _value,
+      });
+    }),
+  );
 
   const getDoingCards = async (
     type = 1,
-    idLists = process.env.REACT_APP_DOING_LISTS.split(",")
+    idLists = process.env.REACT_APP_DOING_LISTS.split(","),
   ) => {
     console.log({ type });
     cards = [];
     let preData = [];
     await Promise.all(
-      idLists.map(async idList => {
+      idLists.map(async (idList) => {
         await (
           await trello
             .lists(idList)
@@ -80,30 +77,28 @@ const Task = () => {
             .getCards()
         )
           .json()
-          .then(data => {
-            data.map(card =>
-              preData.push({
-                id: card.id + Date.now(),
-                id_task: card.id,
-                task: card.name,
-                img: members.filter(mem => mem.id === card.idMembers[0])[0]
-                  ? `${
-                      members.filter(mem => mem.id === card.idMembers[0])[0]
-                        .avatar
-                    }/original.png`
-                  : null,
-                name: members.filter(mem => mem.id === card.idMembers[0])[0]
-                  ? members
-                      .filter(mem => mem.id === card.idMembers[0])[0]
-                      .fullName.split(" ")[0]
-                  : null,
-              })
-            );
+          .then((data) => {
+            data.map((card) => preData.push({
+              id: card.id + Date.now(),
+              id_task: card.id,
+              task: card.name,
+              img: members.filter((mem) => mem.id === card.idMembers[0])[0]
+                ? `${
+                  members.filter((mem) => mem.id === card.idMembers[0])[0]
+                    .avatar
+                }/original.png`
+                : null,
+              name: members.filter((mem) => mem.id === card.idMembers[0])[0]
+                ? members
+                  .filter((mem) => mem.id === card.idMembers[0])[0]
+                  .fullName.split(" ")[0]
+                : null,
+            }));
           });
-      })
+      }),
     );
     preData.sort((a, b) => Math.random() - 0.5);
-    preData = preData.filter(val => {
+    preData = preData.filter((val) => {
       if (tasks.length > 0) {
         if (val.name && val.id_task !== tasks[tasks.length - 1].id_task) {
           return val;
@@ -153,32 +148,27 @@ const Task = () => {
   });
 
   const slideNextTask = () => {
-    Promise.resolve()
-      .then(async () => {
-        if (tasks.length <= 3) {
-        }
-      })
-      .then(() => {
-        const animation = new Promise((resolve, reject) => {
-          tasks.map(item => {
-            window.document
-              .getElementById(item.id)
-              .classList.remove("bounceInUp");
-          });
-          window.document.getElementById(tasks[0].id).classList.add("slow");
+    if (tasks.length > 0) {
+      const animation = new Promise((resolve, reject) => {
+        tasks.map((item) => {
+          window.document
+            .getElementById(item.id)
+            .classList.remove("bounceInUp");
+        });
+        window.document.getElementById(tasks[0].id).classList.add("slow");
+        window.document
+          .getElementById(tasks[0].id)
+          .classList.add("bounceOutRight");
+        setTimeout(() => {
           window.document
             .getElementById(tasks[0].id)
-            .classList.add("bounceOutRight");
-          setTimeout(() => {
-            window.document
-              .getElementById(tasks[0].id)
-              .classList.remove("bounceOutRight");
+            .classList.remove("bounceOutRight");
 
-            setTasks(tasks.filter(item => item.id !== tasks[0].id));
-            resolve("¡Éxito!"); // ¡Todo salió bien!
-          }, 900);
-        });
+          setTasks(tasks.filter((item) => item.id !== tasks[0].id));
+          resolve("¡Éxito!"); // ¡Todo salió bien!
+        }, 900);
       });
+    }
   };
   useEffect(() => {
     const interval = setInterval(() => {
@@ -193,7 +183,7 @@ const Task = () => {
         <button className="hidden" id="triggerbutton" onClick={slideNextTask}>
           Hola
         </button>
-        {tasks.map(task => (
+        {tasks.map((task) => (
           <div
             className={`row height-50 animated ${
               animation === true ? "bounceInUp slow" : ""

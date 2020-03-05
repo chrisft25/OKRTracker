@@ -35,6 +35,7 @@
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
 </head>
 
 <body>
@@ -50,6 +51,20 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <script>
+      var pusher = new Pusher('b14b0636a54a73a2904d', {
+      cluster: 'us2',
+      forceTLS: true
+    });
+
+    var channel = pusher.subscribe('OKRTracker');
+    channel.bind('taskChange', function(data) {
+      if(data.action.data.listAfter.name=="Done"){
+        alert("Bien hecho! " + data.action.memberCreator.fullName + " Terminaste la tarea:" + data.action.data.card.name)
+      }
+    });
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,26 @@
+{
+    "version": 2,
+    "name": "oktrtracker-api",
+    "builds": [
+      { "src": "/index.js", "use": "@now/node-server" }
+    ],
+    "routes": [
+        {
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET",
+                "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
+            },
+            "src": "/.*",
+            "dest": "/index.js"
+        }
+    ],
+    "env": {
+      "PUSHER_APP_ID": "",
+"PUSHER_APP_KEY":"",
+"PUSHER_APP_SECRET":"",
+"PUSHER_APP_CLUSTER":"",
+"PUSHER_APP_CHANNEL":"",
+"PUSHER_APP_EVENT":""
+    }
+  }
