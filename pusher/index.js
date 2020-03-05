@@ -97,7 +97,7 @@ app.post("/", async (req, res) => {
         console.log(finalData);
         res.json(finalData);
       }
-    }, 850);
+    }, 1000);
   }
 });
 
