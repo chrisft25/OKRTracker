@@ -19,7 +19,6 @@ const Task = () => {
   ) => {
     let member = [];
     let preData = [];
-    console.log(idBoards);
     await Promise.all(
       idBoards.map(async (idBoard) => {
         preData = await (
@@ -65,7 +64,6 @@ const Task = () => {
     type = 1,
     idLists = process.env.REACT_APP_DOING_LISTS.split(","),
   ) => {
-    console.log({ type });
     cards = [];
     let preData = [];
     await Promise.all(
@@ -107,19 +105,16 @@ const Task = () => {
     });
     if (type === 1) {
       cards = preData;
-      console.log({ cards });
-      console.log({ preData });
+
       return false;
     }
-    console.log({ preData });
-    console.log("voy a retornar valor");
+
     return preData;
   };
 
   const updateTasks = async () => {
     await getMembers();
     const prueba = await getDoingCards(2);
-    console.log({ prueba });
   };
 
   useEffect(() => {
@@ -127,7 +122,7 @@ const Task = () => {
       await getMembers();
       await getDoingCards();
       setTasks(cards);
-      console.log(cards);
+
       animation = false;
     }
 
@@ -140,7 +135,6 @@ const Task = () => {
         await getMembers();
         await getDoingCards();
         setTasks(tasks.concat(cards));
-        console.log(tasks);
       }
     }
 

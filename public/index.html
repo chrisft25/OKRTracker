@@ -61,34 +61,28 @@
 
     var channel = pusher.subscribe('OKRTracker');
     channel.bind('taskChange', function(data) {
-      if(data.action.data.listAfter.name=="Done"){
-        console.log(data)
-        let timerInterval
-Swal.fire({
-  title: '¡Excelente ' + data.action.memberCreator.fullName +'!',
-  html: 'Terminaste: '+data.action.data.card.name + "<br/><img src='"+ data.img_user + "' style='height:100%;width:100%'/>",
-  timer: 10000,
-  timerProgressBar: true,
-  width:800,
-  height:800,
-  backdrop: `
-    rgba(${data.bg_user.r},${data.bg_user.g},${data.bg_user.b},0.4)
-    url("${data.bg_user.img}")
-    left top
-    repeat
-  `,
-  onClose: () => {
-    clearInterval(timerInterval)
-  }
-}).then((result) => {
-  /* Read more about handling dismissals below */
-  if (result.dismiss === Swal.DismissReason.timer) {
-    console.log('I was closed by the timer')
-  }
-})
-      }
-    });
-    </script>
+      console.log(data)
+          
+          let timerInterval
+          Swal.fire({
+            title: '¡Excelente ' + data.name +'!',
+            html: 'Terminaste: '+data.task + "<br/><img src='"+ data.img_user + "' style='height:100%;width:100%'/>",
+            timer: 10000,
+            timerProgressBar: true,
+            width:800,
+            height:800,
+            backdrop: `
+            rgba(${data.bg_user.r},${data.bg_user.g},${data.bg_user.b},0.4)
+            url("${data.bg_user.img}")
+            left top
+            repeat
+            `,
+            onClose: () => {
+              clearInterval(timerInterval)
+            }
+          })
+});
+</script>
 </body>
 
 </html>
