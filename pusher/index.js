@@ -42,7 +42,7 @@ app.post("/", async (req, res) => {
         const memberData = (await (await trello.members(idMembers[0]).getMember()).json());
         const { fullName, username } = memberData;
 
-        const doc = new GoogleSpreadsheet("16FfRrQbqHqAlx9kUNeudDOzQf5kAGYIznf4GlRX_G8U");
+        const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET);
         doc.useApiKey(process.env.GOOGLE_KEY);
         await doc.loadInfo();
         const sheet = doc.sheetsByIndex[0];

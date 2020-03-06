@@ -55,18 +55,16 @@
 
     <script>
       var pusher = new Pusher('b14b0636a54a73a2904d', {
-      cluster: 'us2',
-      forceTLS: true
+      cluster: 'us2'
     });
 
     var channel = pusher.subscribe('OKRTracker');
     channel.bind('taskChange', function(data) {
       console.log(data)
           
-          let timerInterval
           Swal.fire({
             title: '¡Excelente ' + data.name +'!',
-            html: 'Terminaste: '+data.task + "<br/><img src='"+ data.img_user + "' style='height:100%;width:100%'/>",
+            html: 'Terminaste: '+data.task + "<br/><img src='"+ data.img_user + "' style='max-height:50vh; display:block;margin:auto'/>",
             timer: 10000,
             timerProgressBar: true,
             width:800,
@@ -75,10 +73,7 @@
             url("${data.bg_user.img}")
             left top
             repeat
-            `,
-            onClose: () => {
-              clearInterval(timerInterval)
-            }
+            `
           })
 });
 </script>
